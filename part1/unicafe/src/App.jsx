@@ -25,9 +25,27 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  // simplified
   const increaseNeutral = () => setNeutral(neutral + 1)
+
+  // with { }
   const increaseBad = () => {
     return setBad(bad + 1)
+  }
+
+  const calcAverage = () => {
+    const total = good + neutral + bad
+    // to avoid errors on first load when there is no votes
+    if (total === 0) return 0
+    return (good - bad) / total
+  }
+
+  const positivePecentage = () => {
+    const total = good + neutral + bad
+    // to avoid errors on first load when there is no votes
+    if (total === 0) return 0
+    const percentage = (good / total) * 100
+    return percentage
   }
 
 
@@ -42,6 +60,8 @@ const App = () => {
       <DisplayCounter text='good' counter={good}/>
       <DisplayCounter text='neutral' counter={neutral}/>
       <DisplayCounter text='bad' counter={bad}/>
+      <DisplayCounter text='average' counter={calcAverage()}/>
+      <DisplayCounter text='positive' counter={`${positivePecentage()} %`}/>
     </div>
   )
 }
