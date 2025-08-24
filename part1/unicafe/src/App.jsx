@@ -13,6 +13,12 @@ const DisplayCounter = (props) => {
   )
 }
 
+const Statistics = (props) => {
+  return (
+    <div>{props.text} {props.counter}</div>
+  )
+}
+
 const Button = (props) => {
   return (
     <button onClick={props.onClick}>{props.text}</button>
@@ -57,9 +63,9 @@ const App = () => {
       <Button onClick={increaseNeutral} text='neutral'/>
       <Button onClick={increaseBad} text='bad'/>
       <DisplayHeader text='Statistics'/>
-      <DisplayCounter text='good' counter={good}/>
-      <DisplayCounter text='neutral' counter={neutral}/>
-      <DisplayCounter text='bad' counter={bad}/>
+      <Statistics text='good' counter={good}/>
+      <Statistics text='neutral' counter={neutral}/>
+      <Statistics text='bad' counter={bad}/>
       <DisplayCounter text='average' counter={calcAverage()}/>
       <DisplayCounter text='positive' counter={`${positivePecentage()} %`}/>
     </div>
