@@ -7,6 +7,14 @@ const DisplayHeader = (props) => {
   )
 }
 
+const StatisticsLine = (props) => {
+  return (
+    <div>
+      {props.text} {props.value}
+    </div>
+  )
+}
+
 const Statistics = (props) => {
   if (props.goodCounter + props.neutralCounter + props.badCounter === 0) {
     return (
@@ -17,11 +25,11 @@ const Statistics = (props) => {
   }
   return (
     <>
-      <div>{props.good} {props.goodCounter}</div>
-      <div>{props.neutral} {props.neutralCounter}</div>
-      <div>{props.bad} {props.badCounter}</div>
-      <div>{props.average} {props.averageCounter}</div>
-      <div>{props.positive} {props.positiveCounter}</div>
+      <StatisticsLine text='good' value={props.goodCounter}/>
+      <StatisticsLine text='neutral' value={props.neutralCounter}/>
+      <StatisticsLine text='bad' value={props.badCounter}/>
+      <StatisticsLine text='average' value={props.averageCounter}/>
+      <StatisticsLine text='positive' value={props.positiveCounter}/>
     </>
   )
 }
