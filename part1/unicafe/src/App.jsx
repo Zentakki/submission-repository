@@ -8,8 +8,21 @@ const DisplayHeader = (props) => {
 }
 
 const Statistics = (props) => {
+  if (props.goodCounter + props.neutralCounter + props.badCounter === 0) {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
   return (
-    <div>{props.text} {props.counter}</div>
+    <>
+      <div>{props.good} {props.goodCounter}</div>
+      <div>{props.neutral} {props.neutralCounter}</div>
+      <div>{props.bad} {props.badCounter}</div>
+      <div>{props.average} {props.averageCounter}</div>
+      <div>{props.positive} {props.positiveCounter}</div>
+    </>
   )
 }
 
@@ -57,11 +70,13 @@ const App = () => {
       <Button onClick={increaseNeutral} text='neutral'/>
       <Button onClick={increaseBad} text='bad'/>
       <DisplayHeader text='Statistics'/>
-      <Statistics text='good' counter={good}/>
-      <Statistics text='neutral' counter={neutral}/>
-      <Statistics text='bad' counter={bad}/>
-      <Statistics text='average' counter={calcAverage()}/>
-      <Statistics text='positive' counter={`${positivePecentage()} %`}/>
+      <Statistics
+        good='good' goodCounter={good}
+        neutral='neutral' neutralCounter={neutral}
+        bad='bad' badCounter={bad}
+        average='average' averageCounter={calcAverage()}
+        positive='positive' positiveCounter={`${positivePecentage()} %`}
+      />
     </div>
   )
 }
