@@ -7,12 +7,6 @@ const DisplayHeader = (props) => {
   )
 }
 
-const DisplayCounter = (props) => {
-  return (
-    <div>{props.text} {props.counter}</div>
-  )
-}
-
 const Statistics = (props) => {
   return (
     <div>{props.text} {props.counter}</div>
@@ -66,8 +60,8 @@ const App = () => {
       <Statistics text='good' counter={good}/>
       <Statistics text='neutral' counter={neutral}/>
       <Statistics text='bad' counter={bad}/>
-      <DisplayCounter text='average' counter={calcAverage()}/>
-      <DisplayCounter text='positive' counter={`${positivePecentage()} %`}/>
+      <Statistics text='average' counter={calcAverage()}/>
+      <Statistics text='positive' counter={`${positivePecentage()} %`}/>
     </div>
   )
 }
