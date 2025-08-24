@@ -9,9 +9,14 @@ const DisplayHeader = (props) => {
 
 const StatisticsLine = (props) => {
   return (
-    <div>
-      {props.text} {props.value}
-    </div>
+    <tr>
+      <td>
+        {props.text}
+      </td>
+      <td>
+        {props.value}
+      </td>
+    </tr>
   )
 }
 
@@ -24,13 +29,15 @@ const Statistics = (props) => {
     )
   }
   return (
-    <>
-      <StatisticsLine text='good' value={props.goodCounter}/>
-      <StatisticsLine text='neutral' value={props.neutralCounter}/>
-      <StatisticsLine text='bad' value={props.badCounter}/>
-      <StatisticsLine text='average' value={props.averageCounter}/>
-      <StatisticsLine text='positive' value={props.positiveCounter}/>
-    </>
+    <table>
+      <tbody>
+        <StatisticsLine text='good' value={props.goodCounter}/>
+        <StatisticsLine text='neutral' value={props.neutralCounter}/>
+        <StatisticsLine text='bad' value={props.badCounter}/>
+        <StatisticsLine text='average' value={props.averageCounter}/>
+        <StatisticsLine text='positive' value={props.positiveCounter}/>
+      </tbody>
+    </table>
   )
 }
 
