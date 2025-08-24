@@ -14,6 +14,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  const [hasVoted, setHasVoted] = useState(false)
 
   const newRandomSelected = () => {
     let randomSelection = Math.floor(Math.random() * anecdotes.length)
@@ -24,19 +25,21 @@ const App = () => {
       randomSelection = Math.floor(Math.random() * anecdotes.length)
     }
     setSelected(randomSelection)
+    setHasVoted(false)
   }
 
   const incrementVote = () => {
     const votesCopy = [...votes]
     votesCopy[selected] += 1
     setVotes(votesCopy)
+    setHasVoted(true)
   }
   console.log(selected)
   return (
     <div>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
-      <button onClick={incrementVote}>vote</button>
+      <button onClick={incrementVote} disabled={hasVoted}>vote</button>
       <button onClick={newRandomSelected}>next anecdote</button>
     </div>
   )
