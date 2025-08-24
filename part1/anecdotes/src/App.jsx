@@ -13,8 +13,9 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
 
-  const newSelected = () => {
+  const newRandomSelected = () => {
     let randomSelection = Math.floor(Math.random() * anecdotes.length)
     while (randomSelection === selected) {
       // use console.count to see the message better
@@ -25,10 +26,18 @@ const App = () => {
     setSelected(randomSelection)
   }
 
+  const incrementVote = () => {
+    const votesCopy = [...votes]
+    votesCopy[selected] += 1
+    setVotes(votesCopy)
+  }
+  console.log(selected)
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <button onClick={newSelected}>next anecdote</button>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={incrementVote}>vote</button>
+      <button onClick={newRandomSelected}>next anecdote</button>
     </div>
   )
 }
