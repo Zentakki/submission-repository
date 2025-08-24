@@ -14,7 +14,16 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
 
-  const newSelected = () => setSelected(Math.floor(Math.random() * anecdotes.length))
+  const newSelected = () => {
+    let randomSelection = Math.floor(Math.random() * anecdotes.length)
+    while (randomSelection === selected) {
+      // use console.count to see the message better
+      // console.log doesn't repeat the same message
+      console.count('Same selected anecdote, generating another..')
+      randomSelection = Math.floor(Math.random() * anecdotes.length)
+    }
+    setSelected(randomSelection)
+  }
 
   return (
     <div>
