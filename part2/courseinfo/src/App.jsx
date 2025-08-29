@@ -33,6 +33,7 @@ const Total = (props) => {
 }
 
 const Course = ({ course }) => {
+  const total = course.parts.reduce((sum, part) => sum + part.exercises, 0)
   return (
     <>
       <Header key={course.id} course={course.name}/>
@@ -41,6 +42,9 @@ const Course = ({ course }) => {
           <Part key={part.id} name={part.name} exercises={part.exercises}/>
         )
       }
+      <p>
+        Total of exercises: {total}
+      </p>
     </>
   )
 }
@@ -68,7 +72,11 @@ const App = () => {
     ]
   }
 
-  return <Course course={course} />
+
+
+  return (
+    <Course course={course} />
+  )
 }
 
 export default App
