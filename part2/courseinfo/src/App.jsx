@@ -1,3 +1,5 @@
+import Course from './components/Course'
+
 const Header = (props) => {
   return (
     <>
@@ -6,56 +8,6 @@ const Header = (props) => {
   )
 }
 
-const SubHeader = (props) => {
-  return (
-    <>
-      <h2>{props.course}</h2>
-    </>
-  )
-}
-
-const Part = (props) => {
-  return (
-    <>
-      <p>{props.name} {props.exercises}</p>
-    </>
-  )
-}
-
-const Content = (props) => {
-  return (
-    <>
-      <Part part={props.parts[0]} />
-      <Part part={props.parts[1]} />
-      <Part part={props.parts[2]} />
-    </>
-  )
-}
-
-const Total = (props) => {
-  return (
-    <>
-      <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
-    </>
-  )
-}
-
-const Course = ({ course }) => {
-  const total = course.parts.reduce((sum, part) => sum + part.exercises, 0)
-  return (
-    <>
-      <SubHeader key={course.id} course={course.name}/>
-      {
-        course.parts.map( part =>
-          <Part key={part.id} name={part.name} exercises={part.exercises}/>
-        )
-      }
-      <p>
-        Total of exercises: {total}
-      </p>
-    </>
-  )
-}
 
 const Courses = ({ courses }) => {
   return (
