@@ -2,15 +2,23 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personsService from './services/persons'
 
-const Person = ({ name, phoneNumber }) => {
-  return <li>{name} {phoneNumber}</li>
+const Person = ({ name, phoneNumber, onClick }) => {
+  return <li>
+    {name} {phoneNumber}
+    <button onClick={onClick}>delete</button>
+  </li>
 }
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, onDelete }) => {
   return (
     <ul>
       {persons.map((person) => (
-          <Person key={person.id} name={person.name} phoneNumber={person.phoneNumber}/>
+          <Person
+            key={person.id}
+            name={person.name}
+            phoneNumber={person.phoneNumber}
+            onClick={() => onDelete(person.id, person.name)}
+          />
         ))}
     </ul>
   )
@@ -87,6 +95,17 @@ const App = () => {
     setSearch(event.target.value)
   }
 
+  const handleDelete = (id, name) => {
+    if (!window.confirm(`Are you sure you want to delete ${name}?`)) return
+
+    personsService.delPerson(id)
+      .then(
+        setPersons(
+          persons.filter(p => p.id !== id)
+        )
+      )
+  }
+
   let filteredPersons = persons
   if (search !== '') {
     const match = persons.filter(person =>
@@ -108,7 +127,10 @@ const App = () => {
         numberOnChange={handleNewPhoneNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons}/>
+      <Persons
+        persons={filteredPersons}
+        onDelete={handleDelete}
+      />
     </div>
   )
 }
