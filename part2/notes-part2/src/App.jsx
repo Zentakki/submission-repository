@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Note from './components/Note'
+import noteService from './services/notes'
 
 const App = () => {
   const [ notes, setNotes ] = useState([])
@@ -10,36 +11,57 @@ const App = () => {
   const [showAll, setShowAll] = useState(true)
 
   const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        console.log('promise fullfilled')
-        setNotes(response.data)
+    noteService
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes)
       })
   }
   useEffect(hook, [])
-  console.log('render', notes.length, 'notes')
 
   const addNote = (event) => {
     event.preventDefault()
     const noteObject = {
-      id: notes.length + 1,
       content: newNote,
       important: Math.random() < 0.5, // 50% chance to being marked as important
     }
-    setNotes(notes.concat(noteObject)) // add the newnote to the Notes array
-    setNewNote('') // clear newNote so the input value is empty after adding the new note
+    noteService
+      .create(noteObject)
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote)) // add the newnote to the Notes array
+        setNewNote('') // clear newNote so the input value is empty after adding the new note
+      })
   }
 
+
   const handleNoteChange = (event) => {
-    console.log(event.target.value)
     setNewNote(event.target.value)
   }
 
   const notesToShow = showAll
     ? notes
     : notes.filter(note => note.important)
+
+  const toggleImportanceOf = (id) => {
+    // const url = `http://localhost:3001/notes/${id}` // unique URL for each note resource based on its id
+    const note = notes.find(n => n.id === id) // find the note we want to modify, and we then assign it to the note variable
+    // note.important = !note.important --> this would work, and looks simpler, but we must NEVER mutate state directly in React, always make a copy!!!
+    const changedNote = {...note, important: !note.important} // exact copy of the old note, apart from the important property that has the value flipped
+
+    noteService
+      .update(id, changedNote)
+      .then( returnedNote => {
+        // translation
+        // go through every note in notes, if the id matches use response.data (the changedNote), if not, leave the same note
+        setNotes(notes.map(note => note.id === id ? returnedNote : note))
+      })
+      .catch(error => {
+        alert(
+          `the note '${note.content}' was already deleted from the server`
+        )
+        setNotes(notes.filter(n => n.id !== id))
+      })
+  }
 
   return (
     <div>
@@ -49,7 +71,11 @@ const App = () => {
       </button>
       <ul>
         {notesToShow.map((note) => (
-          <Note key={note.id} note={note} />
+          <Note
+            key={note.id}
+            note={note}
+            toggleImportance={() => toggleImportanceOf(note.id)}
+          />
         ))}
       </ul>
       <form onSubmit={addNote}>

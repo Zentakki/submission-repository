@@ -9,7 +9,7 @@ const Persons = ({ persons }) => {
   return (
     <ul>
       {persons.map((person) => (
-          <Person key={person.name} name={person.name} phoneNumber={person.phoneNumber}/>
+          <Person key={person.id} name={person.name} phoneNumber={person.phoneNumber}/>
         ))}
     </ul>
   )
@@ -68,9 +68,14 @@ const App = () => {
       setNewName('')
       return (alert(`${newName} already in the phonebook`))
     } else {
-      setPersons(persons.concat(newPersonObject))
-      setNewName('')
-      setNewPhoneNumber('')
+      axios
+        .post('http://localhost:3001/persons', newPersonObject)
+        .then(response => response.data)
+        .then(newPerson => {
+          setPersons(persons.concat(newPerson))
+          setNewName('')
+          setNewPhoneNumber('')
+        })
     }
   }
 
