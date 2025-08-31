@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import personsService from './services/persons'
 
 const Person = ({ name, phoneNumber }) => {
   return <li>{name} {phoneNumber}</li>
@@ -46,11 +47,8 @@ const App = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
 
   const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    personsService.getAll()
+      .then(initialPersons => setPersons(initialPersons))
   }
 
   useEffect(hook, [])
@@ -68,14 +66,12 @@ const App = () => {
       setNewName('')
       return (alert(`${newName} already in the phonebook`))
     } else {
-      axios
-        .post('http://localhost:3001/persons', newPersonObject)
-        .then(response => response.data)
-        .then(newPerson => {
-          setPersons(persons.concat(newPerson))
-          setNewName('')
-          setNewPhoneNumber('')
-        })
+      personsService.create(newPersonObject)
+      .then(newPerson => {
+        setPersons(persons.concat(newPerson))
+        setNewName('')
+        setNewPhoneNumber('')
+      })
     }
   }
 
