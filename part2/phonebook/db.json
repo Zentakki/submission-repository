@@ -3,7 +3,7 @@
     {
       "id": "1",
       "name": "Arto Hellas",
-      "phoneNumber": "666-HEAVEN"
+      "phoneNumber": "897946"
     },
     {
       "id": "2",
@@ -19,11 +19,6 @@
       "id": "4",
       "name": "Mary Poppendieck",
       "phoneNumber": "39-23-6423122"
-    },
-    {
-      "id": "1906",
-      "name": "Pepe Silvia",
-      "phoneNumber": "69-WhereIsTheGdMail"
     }
   ]
 }

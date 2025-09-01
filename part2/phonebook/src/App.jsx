@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personsService from './services/persons'
+import Notification from './components/Notification'
+import ErrorMessage from './components/Error'
 
 const Person = ({ name, phoneNumber, onClick }) => {
   return <li>
@@ -53,6 +55,8 @@ const App = () => {
   const [search, setSearch] = useState('')
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
+  const [notification, setNotification] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const hook = () => {
     personsService.getAll()
@@ -79,7 +83,20 @@ const App = () => {
             // update persons with the modified person
             setPersons(persons.map(p => p.id !== changedP.id ? p : changedP)),
             setNewName(''),
-            setNewPhoneNumber('')
+            setNewPhoneNumber(''),
+            setNotification(`Modified ${newName}'s number to ${newPhoneNumber}`),
+            setTimeout(() =>
+              setNotification(null), 5000
+            )
+          )
+          .catch( error => {
+            setNewName(''),
+            setNewPhoneNumber(''),
+            setErrorMessage(`Information of ${newName} has already been removed from server`),
+            setTimeout(() =>
+              setErrorMessage(null), 5000
+            )
+          }
           )
         return
       } else {
@@ -94,6 +111,10 @@ const App = () => {
       setNewName('')
       setNewPhoneNumber('')
     })
+    setNotification(`Added ${newName}`)
+    setTimeout(() =>
+      setNotification(null), 5000
+    )
   }
 
   const handleNewName = (event) => {
@@ -131,6 +152,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification}/>
+      <ErrorMessage message={errorMessage}/>
       <Filter onChange={searchName}/>
       <h2>Add a new</h2>
       <Form onSubmit={addNewPerson}
